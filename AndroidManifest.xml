@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="ws.wiklund.beerguide"
+      android:versionCode="2"
+      android:versionName="1.0.1">
+	<uses-sdk android:minSdkVersion="10" />
+	
+ 	<uses-permission
+        android:name="android.permission.INTERNET" />
+ 	<uses-permission 
+ 	    android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	
+	<!--
+	Needed for paypal 
+	<uses-permission 
+	    android:name="android.permission.READ_PHONE_STATE"/>
+     -->    
+    <application 
+    	android:icon="@drawable/icon" 
+    	android:label="@string/app_name" 
+    	android:theme="@style/CustomTheme"
+    	android:debuggable="false">
+        <activity android:name="ws.wiklund.beerguide.activities.BeerListActivity"
+                  android:label="@string/beer_list_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>            
+        </activity>
+        
+        <activity android:name=".activities.AddBeerActivity"
+        		  android:label="@string/add_beer_name" 
+        		  android:noHistory="true" />
+
+        <activity android:name=".activities.ModifyBeerActivity"
+        		  android:label="@string/modify_beer_name" 
+        		  android:noHistory="true" />
+
+        <activity android:name=".activities.BeerActivity"
+        		  android:label="@string/beer_name" />
+
+        <activity android:name=".activities.AboutActivity"
+        		  android:label="@string/app_name" 
+        		  android:noHistory="true" />
+        
+        <activity android:name=".activities.StatsActivity"
+        		  android:label="@string/stats" 
+        		  android:noHistory="true" />
+        
+        <activity android:name=".activities.FullAdActivity" 
+        		  android:noHistory="true" />
+        
+        <activity android:name=".activities.DonateActivity" 
+        		  android:noHistory="true" />
+        
+        <activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+       		  android:noHistory="true" />
+
+        <activity android:name="com.paypal.android.MEP.PayPalActivity"
+ 				  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+ 				  android:configChanges="keyboardHidden|orientation" />
+        
+        <activity android:name=".activities.BeerTabsActivity" />
+
+        <activity android:name=".activities.WineFlowActivityies.BeerFlowActivity" />
+        
+        <provider
+            android:authorities="ws.wiklund.beerguide.db.BeerCellarProvider"
+            android:multiprocess="true"
+            android:name="ws.wiklund.beerguide.db.BeerCellarProvider" />
+      	
+      	 <receiver android:name="ws.wiklund.beerguide.util.AlarmReceiver"></receiver>
+        
+	</application>
+</manifest>
