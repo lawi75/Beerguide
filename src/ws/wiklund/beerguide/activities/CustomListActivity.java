@@ -101,7 +101,7 @@ public abstract class CustomListActivity extends ListActivity {
 		selectableAdapter.add(new SelectableImpl(getString(R.string.deleteTitle), R.drawable.trash, Selectable.DELETE_ACTION));
 	}
 	
-	public void addBeer(View view) {
+	public void addWine(View view) {
     	Intent intent = new Intent(view.getContext(), AddBeerActivity.class);
     	startActivityForResult(intent, 0);
     }

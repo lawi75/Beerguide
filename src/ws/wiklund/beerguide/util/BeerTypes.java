@@ -7,19 +7,19 @@ import ws.wiklund.guides.model.BeverageType;
 import ws.wiklund.guides.model.BeverageTypes;
 
 public class BeerTypes implements BeverageTypes {
+	private static final long serialVersionUID = 3307688919567492900L;
 	private static final List<BeverageType> types = new ArrayList<BeverageType>();
-	private static final BeerType OTHER = new BeerType(999, "Övriga");
 
 	static {
 		if(types.isEmpty()) {
-			types.add(new BeerType(100, "Öl, Ljus lager"));
-			types.add(new BeerType(200, "Öl, Mörk lager"));
-			types.add(new BeerType(300, "Öl, Porter och Stout"));
-			types.add(new BeerType(400, "Öl, Ale"));
-			types.add(new BeerType(500, "Öl, Veteöl"));
-			types.add(new BeerType(600, "Öl, Specialöl"));
-			types.add(new BeerType(600, "Öl, Spontanjäst öl"));
-			types.add(OTHER);
+			types.add(new BeverageType(100, "Öl, Ljus lager"));
+			types.add(new BeverageType(200, "Öl, Mörk lager"));
+			types.add(new BeverageType(300, "Öl, Porter och Stout"));
+			types.add(new BeverageType(400, "Öl, Ale"));
+			types.add(new BeverageType(500, "Öl, Veteöl"));
+			types.add(new BeverageType(600, "Öl, Specialöl"));
+			types.add(new BeverageType(600, "Öl, Spontanjäst öl"));
+			types.add(BeverageType.OTHER);
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class BeerTypes implements BeverageTypes {
 			}
 		}
 		
-		return OTHER;
+		return BeverageType.OTHER;
 	}
 
 	@Override

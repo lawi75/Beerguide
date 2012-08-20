@@ -1,14 +1,18 @@
 package ws.wiklund.beerguide.activities;
 
+import java.io.File;
+
 import ws.wiklund.beerguide.R;
 import ws.wiklund.beerguide.db.BeerDatabaseHelper;
-import ws.wiklund.beerguide.list.BeerListCursorAdapter;
-import ws.wiklund.beerguide.util.GetBeerFromCursorTask;
 import ws.wiklund.beerguide.util.SelectableImpl;
+import ws.wiklund.guides.list.BeverageListCursorAdapter;
 import ws.wiklund.guides.util.AppRater;
+import ws.wiklund.guides.util.ExportDatabaseCSVTask;
+import ws.wiklund.guides.util.GetBeverageFromCursorTask;
 import ws.wiklund.guides.util.Notifyable;
 import ws.wiklund.guides.util.Selectable;
 import ws.wiklund.guides.util.Sortable;
+import ws.wiklund.guides.util.ViewHelper;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -53,33 +57,31 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 
 		// Bootstrapping
 		// PayPalFactory.init(this.getBaseContext());
-
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			startActivityForResult(new Intent(getApplicationContext(), BeerFlowActivity.class), 0);
+		} else {
+			setContentView(R.layout.beerlist);
+	
+			helper = new BeerDatabaseHelper(this);
+			cursor = getNewCursor(currentSortColumn);
+	
+			startManagingCursor(cursor);
+	
+			// Now create a new list adapter bound to the cursor.
+			adapter = new BeverageListCursorAdapter(this, cursor, beerTypes);
+	
+			// Bind to our new adapter.
+			setListAdapter(adapter);
+	
+			ListView list = getListView();
+			list.setOnItemLongClickListener(new OnItemLongClickListener() {
+				@Override
+				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+					handleLongClick(position);
+					return true;
+				}
+			});
 		}
-		
-		setContentView(R.layout.beerlist);
-
-		helper = new BeerDatabaseHelper(this);
-		cursor = getNewCursor(currentSortColumn);
-
-		startManagingCursor(cursor);
-
-		// Now create a new list adapter bound to the cursor.
-		adapter = new BeerListCursorAdapter(this, cursor);
-
-		// Bind to our new adapter.
-		setListAdapter(adapter);
-
-		ListView list = getListView();
-		list.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-				handleLongClick(position);
-				return true;
-			}
-		});
-
 	}
 
 	private void initVersions() {
@@ -142,7 +144,7 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 		
 		Cursor c = (Cursor) BeerListActivity.this.getListAdapter().getItem(position);
 
-		new GetBeerFromCursorTask(this).execute(c);
+		new GetBeverageFromCursorTask(this, helper, BeerActivity.class).execute(c);
 	}
 
 	@Override
@@ -151,6 +153,10 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 	}
 
 	public void notifyDataSetChanged() {
+		if(db == null || adapter == null) {
+			return;
+		}
+		
 		if (!db.isOpen() || adapter.getCount() == 0) {
 			stopManagingCursor(cursor);
 			cursor = getNewCursor(currentSortColumn);
@@ -162,7 +168,7 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 		adapter.notifyDataSetChanged();
 
 		int bottles = helper.getNoBottlesInCellar();
-		// Update title with no beers in cellar
+		// Update title with no wines in cellar
 		if (bottles > 0) {
 			TextView view = (TextView) BeerListActivity.this.findViewById(R.id.title);
 
@@ -179,8 +185,13 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 	protected void onDestroy() {
 		stopManagingCursor(cursor);
 
-		adapter.getCursor().close();
-
+		if (adapter != null) {
+			Cursor c = adapter.getCursor();
+			if(c != null) {
+				c.close();
+			}
+		}
+		
 		if (cursor != null) {
 			cursor.close();
 		}
@@ -209,7 +220,7 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 		super.onCreateOptionsMenu(menu);
 
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.beer_list_menu, menu);
+		inflater.inflate(R.menu.beverage_list_menu, menu);
 
 		return true;
 	}
@@ -225,17 +236,33 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuStats:
-			startActivityForResult(
-					new Intent(
-							BeerListActivity.this.getApplicationContext(),
-							StatsActivity.class), 0);
+			startActivityForResult(new Intent(BeerListActivity.this.getApplicationContext(),StatsActivity.class), 0);
 			break;
-		case R.id.menuAbout:
-			startActivityForResult(
-					new Intent(
-							BeerListActivity.this.getApplicationContext(),
-							AboutActivity.class), 0);
+		case R.id.menuExport:
+			final AlertDialog alertDialog = new AlertDialog.Builder(BeerListActivity.this).create();
+			alertDialog.setTitle(getString(R.string.export));
+			
+			final File exportFile = new File(ViewHelper.getRoot(), "export_guide.csv");
+			alertDialog.setMessage(String.format(getString(R.string.export_message), new Object[]{exportFile.getAbsolutePath()}));
+			
+			alertDialog.setButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+			       new ExportDatabaseCSVTask(BeerListActivity.this, helper, exportFile, BeerListActivity.this.getListAdapter().getCount(), beerTypes).execute();
+				} 
+			});
+			
+			alertDialog.setButton2(getString(android.R.string.no), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					alertDialog.cancel();
+				} 
+			});
 
+			alertDialog.setCancelable(true);
+			alertDialog.setIcon(R.drawable.export);
+			alertDialog.show();
+			break;			
+		case R.id.menuAbout:
+			startActivityForResult(new Intent(BeerListActivity.this.getApplicationContext(), AboutActivity.class), 0);
 			break;
 		}
 

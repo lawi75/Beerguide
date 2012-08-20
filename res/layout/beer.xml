@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"    
+	android:id="@+id/ModifyWineScrollView"
 	android:layout_height="fill_parent" 
 	android:layout_width="fill_parent"
 	android:background="@android:color/white" >
@@ -9,9 +10,10 @@
 	<LinearLayout
 		android:orientation="vertical"
     	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content" >
+    	android:layout_height="wrap_content">
 	    
 		<TableLayout 
+			android:id="@+id/TableLayoutWine" 
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" >			
 			
@@ -215,7 +217,25 @@
 					android:singleLine="true"
 					android:layout_width="fill_parent"			
 					android:layout_weight="1" />			 
-			</TableRow>													
+			</TableRow>	
+			
+			<TableRow
+			    android:layout_height="wrap_content"
+				android:layout_width="wrap_content" >					
+				<TextView 
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"	
+					android:singleLine="true" 
+					android:text="@string/comment_hint" />			 
+	
+				<TextView 
+					android:id="@+id/Text_comment"
+					android:layout_height="wrap_content"
+					android:layout_width="fill_parent"
+					android:paddingLeft="10dip"
+					android:singleLine="false"
+					android:layout_weight="1" />			 
+			</TableRow>					
 		</TableLayout>	
 																	
 		<RatingBar android:id="@+id/ratingBar"
@@ -241,7 +261,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingTop="30dip"
-			ads:adUnitId="a14ff29be503e63"
+			ads:adUnitId="a14ef3028f69666"
 			ads:adSize="BANNER"
 			ads:testDevices="TEST_EMULATOR, 7F842430E41B05C0CE78448229ED475D"
 			ads:loadAdOnCreate="true"/>	

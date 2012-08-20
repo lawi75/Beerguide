@@ -4,6 +4,8 @@ import java.util.List;
 
 import ws.wiklund.beerguide.R;
 import ws.wiklund.beerguide.db.BeerDatabaseHelper;
+import ws.wiklund.beerguide.util.BeerTypes;
+import ws.wiklund.guides.activities.BaseActivity;
 import ws.wiklund.guides.model.Beverage;
 import ws.wiklund.guides.util.DownloadImageTask;
 import ws.wiklund.guides.util.ViewHelper;
@@ -32,15 +34,13 @@ public class StatsActivity extends BaseActivity {
         //TODO History of beers
         
 		TextView total = (TextView) findViewById(R.id.total);
-		total.setText(String.format(getString(R.string.statsNow), 
-				new Object[]{beverages.size(), ViewHelper.getDecimalStringFromNumber(helper.getAverageRating())}));
+		total.setText(String.format(getString(R.string.statsNow), new Object[]{beverages.size(), ViewHelper.getDecimalStringFromNumber(helper.getAverageRating())}));
 		
 		createChart();		
 		
 		TextView totalCellar = (TextView) findViewById(R.id.totalCellar);
 		
-		totalCellar.setText(String.format(getString(R.string.cellarStatsNow), 
-				new Object[]{helper.getNoBottlesInCellar(), ViewHelper.formatPrice(helper.getCellarValue())}));
+		totalCellar.setText(String.format(getString(R.string.cellarStatsNow), new Object[]{helper.getNoBottlesInCellar(), ViewHelper.formatPrice(helper.getCellarValue())}));
 		
 		
 		TableLayout table = (TableLayout)findViewById(R.id.TableLayoutStats);
@@ -74,7 +74,7 @@ public class StatsActivity extends BaseActivity {
     }
     
     private void createChart() {
-		new DownloadImageTask((ImageView)findViewById(R.id.pie), urlGoogleChart, 400, 150).execute(ViewHelper.buildChartUrl(helper, beerTypes.getAllBeverageTypes().iterator()));
+		new DownloadImageTask((ImageView)findViewById(R.id.pie), urlGoogleChart, 400, 150).execute(ViewHelper.buildChartUrl(helper, new BeerTypes().getAllBeverageTypes().iterator()));
 	}
 
 }

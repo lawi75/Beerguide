@@ -2,8 +2,9 @@ package ws.wiklund.beerguide.activities;
 
 import java.io.InputStream;
 
-import ws.wiklund.beerguide.db.BeerDatabaseHelper;
+import ws.wiklund.guides.activities.BaseActivity;
 import ws.wiklund.beerguide.R;
+import ws.wiklund.beerguide.db.BeerDatabaseHelper;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;

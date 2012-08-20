@@ -10,7 +10,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,12 +39,12 @@ public class SelectableImpl implements Selectable {
 	public void select(final Context context, final BeerDatabaseHelper helper, final int id, final String name) {
 		switch (action) {
 			case Selectable.ADD_ACTION:
-				// TODO create add beer to cellar activity
+				// TODO create add wine to cellar activity
 				// Step 1, simple only add one bottle to cellar on click
 				ContentValues values = new ContentValues();
 				values.put("beverage_id", id);
 				values.put("no_bottles", 1);
-				values.put("added_to_cellar", SystemClock.elapsedRealtime());
+				values.put("added_to_cellar", System.currentTimeMillis());
 				context.getContentResolver().insert(BeerCellarProvider.CONTENT_URI, values);
 	
 				Log.d(SelectableImpl.class.getName(), "Added one bottle of " + name + " to cellar");
@@ -85,7 +84,7 @@ public class SelectableImpl implements Selectable {
 			case Selectable.DELETE_ACTION:
 				AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 				
-				alertDialog.setMessage(String.format(context.getString(R.string.deleteBeer), name));
+				alertDialog.setMessage(String.format(context.getString(R.string.deleteBeverage), name));
 				alertDialog.setCancelable(false);
 				alertDialog.setPositiveButton(android.R.string.yes,
 						new DialogInterface.OnClickListener() {

@@ -2,7 +2,7 @@
 <LinearLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-	android:id="@+id/cellar_list"
+	android:id="@+id/wine_list"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -12,7 +12,7 @@
 	    android:id="@+id/adView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		ads:adUnitId="a14ff29be503e63"
+		ads:adUnitId="a14ef3028f69666"
 		ads:adSize="BANNER"
 		ads:testDevices="TEST_EMULATOR, 7F842430E41B05C0CE78448229ED475D"
 		ads:loadAdOnCreate="true"/>
@@ -33,7 +33,7 @@
 	    android:id="@+id/adView1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		ads:adUnitId="a14ff29be503e63"
+		ads:adUnitId="a14ef3028f69666"
 		ads:testDevices="TEST_EMULATOR, 7F842430E41B05C0CE78448229ED475D"
 		ads:adSize="BANNER"
 		ads:loadAdOnCreate="true"/>
