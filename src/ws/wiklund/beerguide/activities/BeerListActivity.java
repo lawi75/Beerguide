@@ -133,18 +133,13 @@ public class BeerListActivity extends CustomListActivity implements Notifyable {
 
 	private Cursor getNewCursor(String sortColumn) {
 		db = helper.getReadableDatabase();
-		return db.rawQuery(
-				BeerDatabaseHelper.SQL_SELECT_ALL_BEVERAGES_INCLUDING_NO_IN_CELLAR
-						+ " ORDER BY " + sortColumn, null);
+		return db.rawQuery(BeerDatabaseHelper.SQL_SELECT_ALL_BEVERAGES_INCLUDING_NO_IN_CELLAR + " ORDER BY " + sortColumn, null);
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		
-		Cursor c = (Cursor) BeerListActivity.this.getListAdapter().getItem(position);
-
-		new GetBeverageFromCursorTask(this, helper, BeerActivity.class).execute(c);
+		new GetBeverageFromCursorTask(this, BeerActivity.class).execute((Cursor) BeerListActivity.this.getListAdapter().getItem(position));
 	}
 
 	@Override

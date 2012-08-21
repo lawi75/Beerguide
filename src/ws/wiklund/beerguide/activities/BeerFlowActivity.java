@@ -76,14 +76,14 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 	
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					new GetBeverageFromCursorTask(BeerFlowActivity.this, helper, BeerActivity.class).execute(adapter.getItem(position));
+					new GetBeverageFromCursorTask(BeerFlowActivity.this, BeerActivity.class).execute(adapter.getItem(position));
 				}
 				
 			});
 			
 			selectableAdapter = new SelectableAdapter(this, R.layout.spinner_row, getLayoutInflater()){
 				public boolean isAvailableInCellar() {
-					final Beverage b = helper.getBeverageFromCursor(adapter.getItem(currentPosition));
+					final Beverage b = ViewHelper.getBeverageFromCursor(adapter.getItem(currentPosition));
 					return b.hasBottlesInCellar();
 				}
 			};
@@ -166,7 +166,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 		
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		
-		final Beverage b = helper.getBeverageFromCursor(adapter.getItem(position));
+		final Beverage b = ViewHelper.getBeverageFromCursor(adapter.getItem(position));
 		alertDialog.setTitle(b != null ? b.getName() : "");
 		
 		alertDialog.setSingleChoiceItems( selectableAdapter, 0, new OnClickListener() { 
