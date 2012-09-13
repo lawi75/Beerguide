@@ -9,7 +9,7 @@ public class BeerDatabaseHelper extends BeverageDatabaseHelper {
 	private static final long serialVersionUID = -5292283554948327267L;
 
 	public static final String DATABASE_NAME = "beerguide.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = BeerDatabaseUpgrader.VERSION_2;
 
 	public BeerDatabaseHelper(Context context) {
 		this(context, DATABASE_NAME);

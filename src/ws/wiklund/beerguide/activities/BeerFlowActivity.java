@@ -2,9 +2,8 @@ package ws.wiklund.beerguide.activities;
 
 import java.io.File;
 
+import ws.wiklund.beerguide.R;
 import ws.wiklund.beerguide.db.BeerDatabaseHelper;
-import ws.wiklund.beerguide.util.BeerTypes;
-import ws.wiklund.beerguide.util.SelectableImpl;
 import ws.wiklund.guides.activities.BaseActivity;
 import ws.wiklund.guides.model.Beverage;
 import ws.wiklund.guides.util.CoverFlow;
@@ -15,7 +14,6 @@ import ws.wiklund.guides.util.Notifyable;
 import ws.wiklund.guides.util.Selectable;
 import ws.wiklund.guides.util.SelectableAdapter;
 import ws.wiklund.guides.util.ViewHelper;
-import ws.wiklund.beerguide.R;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -37,7 +35,6 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 	private SelectableAdapter selectableAdapter;
 	private BeerDatabaseHelper helper;
 	private int currentPosition;
-	private BeerTypes beerTypes;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -48,15 +45,13 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 			startActivityForResult(new Intent(getApplicationContext(), BeerListActivity.class), 0);
 		} else {
 			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-			setContentView(R.layout.beerflow);
+			setContentView(R.layout.flow);
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 	
-			beerTypes = new BeerTypes();
-
 			helper = new BeerDatabaseHelper(this);			
 			
 			final CoverFlow flow = (CoverFlow) findViewById(R.id.coverFlow);
-			adapter = new CoverFlowAdapter(this, helper, beerTypes);
+			adapter = new CoverFlowAdapter(this, helper);
 	
 			flow.setAdapter(adapter);
 	
@@ -73,12 +68,10 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 			});
 			
 			flow.setOnItemClickListener(new OnItemClickListener() {
-	
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					new GetBeverageFromCursorTask(BeerFlowActivity.this, BeerActivity.class).execute(adapter.getItem(position));
-				}
-				
+				}				
 			});
 			
 			selectableAdapter = new SelectableAdapter(this, R.layout.spinner_row, getLayoutInflater()){
@@ -88,9 +81,9 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 				}
 			};
 			
-			selectableAdapter.add(new SelectableImpl(getString(R.string.addToCellar), R.drawable.icon, Selectable.ADD_ACTION));
-			selectableAdapter.add(new SelectableImpl(getString(R.string.removeFromCellar), R.drawable.from_cellar, Selectable.REMOVE_ACTION));
-			selectableAdapter.add(new SelectableImpl(getString(R.string.deleteTitle), R.drawable.trash, Selectable.DELETE_ACTION));
+			selectableAdapter.add(new Selectable(getString(R.string.addToCellar), R.drawable.icon, Selectable.ADD_ACTION));
+			selectableAdapter.add(new Selectable(getString(R.string.removeFromCellar), R.drawable.from_cellar, Selectable.REMOVE_ACTION));
+			selectableAdapter.add(new Selectable(getString(R.string.deleteTitle), R.drawable.trash, Selectable.DELETE_ACTION));
 		}
 	}
 	
@@ -125,7 +118,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 			
 			alertDialog.setButton(getString(android.R.string.yes), new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-			       new ExportDatabaseCSVTask(BeerFlowActivity.this, helper, exportFile, adapter.getCount(), beerTypes).execute();
+			       new ExportDatabaseCSVTask(BeerFlowActivity.this, helper, exportFile, adapter.getCount()).execute();
 				} 
 			});
 			
@@ -147,7 +140,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 		return true;
 	}
 	
-	public void addWine(View view) {
+	public void addBeverage(View view) {
     	Intent intent = new Intent(view.getContext(), AddBeerActivity.class);
     	startActivityForResult(intent, 0);
     }
@@ -173,7 +166,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
             @Override 
             public void onClick(DialogInterface dialog, int which) { 
                 dialog.dismiss();
-                ((SelectableImpl) selectableAdapter.getItem(which)).select(BeerFlowActivity.this, helper, b.getId(), b.getName());
+                ((Selectable) selectableAdapter.getItem(which)).select(BeerFlowActivity.this, helper, b);
             }
 		}); 
 

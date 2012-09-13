@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ws.wiklund.beerguide"
-      android:versionCode="3"
-      android:versionName="2.0">
+      android:versionCode="4"
+      android:versionName="2.0.1">
 	<uses-sdk android:minSdkVersion="10" />
 	
  	<uses-permission
@@ -10,11 +10,6 @@
  	<uses-permission 
  	    android:name="android.permission.ACCESS_NETWORK_STATE"/>
 	
-	<!--
-	Needed for paypal 
-	<uses-permission 
-	    android:name="android.permission.READ_PHONE_STATE"/>
-     -->    
     <application 
     	android:icon="@drawable/icon" 
     	android:label="@string/app_name" 
@@ -35,8 +30,7 @@
         		  android:label="@string/modify_beer_name" 
         		  android:noHistory="true" />
 
-        <activity android:name=".activities.BeerActivity"
-        		  android:label="@string/beer_name" />
+        <activity android:name=".activities.BeerActivity" />
 
         <activity android:name=".activities.AboutActivity"
         		  android:label="@string/app_name" 
@@ -46,7 +40,7 @@
         		  android:label="@string/stats" 
         		  android:noHistory="true" />
         
-        <activity android:name=".activities.FullAdActivity" 
+        <activity android:name="ws.wiklund.guides.activities.FullAdActivity" 
         		  android:noHistory="true" />
         
         <activity android:name=".activities.DonateActivity" 
@@ -63,13 +57,6 @@
         <activity android:name=".activities.BeerTabsActivity" />
 
         <activity android:name=".activities.WineFlowActivityies.BeerFlowActivity" />
-        
-        <provider
-            android:authorities="ws.wiklund.beerguide.db.BeerCellarProvider"
-            android:multiprocess="true"
-            android:name="ws.wiklund.beerguide.db.BeerCellarProvider" />
-      	
-      	 <receiver android:name="ws.wiklund.beerguide.util.AlarmReceiver"></receiver>
         
 	</application>
 </manifest>
