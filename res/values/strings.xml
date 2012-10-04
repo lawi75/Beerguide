@@ -21,7 +21,7 @@
     <string name="statsNow">Det finns %1$s olika sorters öl i listan med ett snittbetyg på %2$s stjärnor</string>
     
     <!-- Whats new -->
-    <string name="versionHeads">Version 2.0.1£Version 2.0£Version 1.0.1£Version 1.0</string>
-    <string name="versionMessages">Fixat problem med instabil kommunikation mot www.systembolaget.se samt div. andra buggar£Lägga till öl manuellt\nMöjlighet att ta en ny bild av sin öl med kameran istället för den som används\nLägga till kommentarer\nExportera listan till SD kortet för att sedan öppna den i excel\nTexten har gjorts mer läsvänlig£Div mindre buggfixar.£Första versionen av Min Öllista.</string>
+    <string name="versionHeads">>Version 2.0.3£Version 2.0.2£Version 2.0.1£Version 2.0£Version 1.0.1£Version 1.0</string>
+    <string name="versionMessages">Fixade problem med Facebookintegrationen£Mindre fixar£Fixat problem med instabil kommunikation mot www.systembolaget.se samt div. andra buggar£Lägga till öl manuellt\nMöjlighet att ta en ny bild av sin öl med kameran istället för den som används\nLägga till kommentarer\nExportera listan till SD kortet för att sedan öppna den i excel\nTexten har gjorts mer läsvänlig£Div mindre buggfixar.£Första versionen av Min Öllista.</string>
     
 </resources>
