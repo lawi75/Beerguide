@@ -42,7 +42,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 		super.onCreate(savedInstanceState);
 
 		if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-			startActivityForResult(new Intent(getApplicationContext(), BeerListActivity.class), 0);
+			startActivity(new Intent(getApplicationContext(), BeerListActivity.class));
 		} else {
 			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 			setContentView(R.layout.flow);
@@ -107,7 +107,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuStats:
-			startActivityForResult(new Intent(BeerFlowActivity.this.getApplicationContext(), StatsActivity.class), 0);
+			startActivity(new Intent(BeerFlowActivity.this.getApplicationContext(), StatsActivity.class));
 			break;
 		case R.id.menuExport:
 			final AlertDialog alertDialog = new AlertDialog.Builder(BeerFlowActivity.this).create();
@@ -133,7 +133,7 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 			alertDialog.show();
 			break;
 		case R.id.menuAbout:
-			startActivityForResult(new Intent(BeerFlowActivity.this.getApplicationContext(), AboutActivity.class), 0);
+			startActivity(new Intent(BeerFlowActivity.this.getApplicationContext(), AboutActivity.class));
 			break;
 		}
 

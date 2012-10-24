@@ -50,7 +50,7 @@ public class AddBeerActivity extends BaseActivity {
 	
 	public void addBeverageManually(View view) {    	
 		Intent intent = new Intent(this, ModifyBeerActivity.class);
-    	startActivityForResult(intent, 0);
+    	startActivity(intent);
     }
 
 }

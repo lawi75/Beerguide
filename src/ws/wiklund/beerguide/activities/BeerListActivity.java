@@ -39,7 +39,7 @@ public class BeerListActivity extends CustomListActivity {
 		BasicBootStrapHandler.init(this, PRIVATE_PREF);
 
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			startActivityForResult(new Intent(getApplicationContext(), BeerFlowActivity.class), 0);
+			startActivity(new Intent(getApplicationContext(), BeerFlowActivity.class));
 		} else {
 			requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 			setContentView(R.layout.list);
@@ -120,7 +120,7 @@ public class BeerListActivity extends CustomListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menuStats:
-			startActivityForResult(new Intent(getApplicationContext(),StatsActivity.class), 0);
+			startActivity(new Intent(getApplicationContext(),StatsActivity.class));
 			break;
 		case R.id.menuExport:
 			final AlertDialog alertDialog = new AlertDialog.Builder(BeerListActivity.this).create();
@@ -146,7 +146,7 @@ public class BeerListActivity extends CustomListActivity {
 			alertDialog.show();
 			break;			
 		case R.id.menuAbout:
-			startActivityForResult(new Intent(getApplicationContext(), AboutActivity.class), 0);
+			startActivity(new Intent(getApplicationContext(), AboutActivity.class));
 			break;
 		}
 
