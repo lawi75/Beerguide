@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ws.wiklund.beerguide"
-      android:versionCode="9"
-      android:versionName="2.0.7">
-	<uses-sdk android:minSdkVersion="11" />
+      android:versionCode="11"
+      android:versionName="2.0.8">
+	<uses-sdk android:minSdkVersion="10" />
 	
  	<uses-permission
         android:name="android.permission.INTERNET" />

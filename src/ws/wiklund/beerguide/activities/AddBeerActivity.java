@@ -22,6 +22,11 @@ public class AddBeerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add);
         
+    	View v1 = findViewById(R.id.TableRowFindBeverageByName);
+    	if(v1 != null) {
+    		v1.setVisibility(View.GONE);
+    	}
+
         helper = new BeerDatabaseHelper(this);
         searchStr = (EditText)findViewById(R.id.EditNo);
         
