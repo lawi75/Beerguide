@@ -8,6 +8,7 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 	//Available DB versions
 	static final int VERSION_1 = 1;
 	static final int VERSION_2 = 2;
+	static final int VERSION_3 = 3;
 
 	public BeerDatabaseUpgrader(SQLiteDatabase db) {
 		super(db);
@@ -27,6 +28,19 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 					}
 					
 					return VERSION_2;
+				}
+				
+				break;				
+			case VERSION_2:
+				if(newVersion > VERSION_2) {
+					version = moveToVersion3();
+					Log.d(BeerDatabaseUpgrader.class.getName(), "Upgraded DB from version [" + oldVersion + "] to version [" + version + "]");
+					
+					if(version < newVersion) {
+						return upgrade(version, newVersion);
+					}
+					
+					return VERSION_3;
 				}
 				
 				break;				
@@ -103,6 +117,13 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 		
 		return VERSION_2;			
 	}
+	
+	private int moveToVersion3() {
+		insertImageColumnToBeverage();
+
+		return VERSION_3;			
+	}
+	
 
 	@Override
 	public void createAndPopulateBeverageTypeTable(SQLiteDatabase db) {
