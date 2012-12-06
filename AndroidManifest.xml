@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="ws.wiklund.beerguide"
-      android:versionCode="11"
-      android:versionName="2.0.8">
-	<uses-sdk android:minSdkVersion="10" />
+      android:versionCode="13"
+      android:versionName="3.0.1">
+	<uses-sdk 
+	    android:minSdkVersion="10" 
+	    android:targetSdkVersion="17" />
 	
  	<uses-permission
         android:name="android.permission.INTERNET" />
@@ -13,7 +15,8 @@
     <application 
     	android:icon="@drawable/icon" 
     	android:label="@string/app_name" 
-    	android:theme="@style/CustomTheme" >
+    	android:theme="@style/CustomTheme" 
+    	android:allowBackup="true">
         <activity android:name="ws.wiklund.beerguide.activities.BeerListActivity"
                   android:label="@string/app_name">
             <intent-filter>
@@ -43,6 +46,9 @@
         <activity android:name="ws.wiklund.guides.activities.FullAdActivity" 
         		  android:noHistory="true" />
         
+        <activity android:name="ws.wiklund.guides.activities.FullSizeImageActivity" 
+				  android:noHistory="true" />
+        
         <activity android:name=".activities.DonateActivity" 
         		  android:noHistory="true" />
         
@@ -56,7 +62,7 @@
         
         <activity android:name=".activities.BeerTabsActivity" />
 
-        <activity android:name=".activities.WineFlowActivityies.BeerFlowActivity" />
+        <activity android:name=".activities.BeerFlowActivity" />
         
 	</application>
 </manifest>
