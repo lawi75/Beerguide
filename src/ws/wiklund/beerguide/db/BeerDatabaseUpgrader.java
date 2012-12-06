@@ -118,7 +118,7 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 		
 		return VERSION_2;			
 	}
-
+	
 	private int moveToVersion3() throws SQLException {
 		insertImageColumnToBeverage();
 		
