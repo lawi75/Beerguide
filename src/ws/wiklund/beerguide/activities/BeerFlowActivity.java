@@ -174,7 +174,10 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 	}	
 
 	public void notifyDataSetChanged() {
-		int bottles = helper.getNoBottlesInCellar();
+		int bottles = -1;
+		if (helper != null) {
+			bottles = helper.getNoBottlesInCellar();
+		}
 		// Update title with no wines in cellar
 		if (bottles > 0) {
 			TextView view = (TextView) BeerFlowActivity.this.findViewById(R.id.title);
@@ -187,12 +190,17 @@ public class BeerFlowActivity extends BaseActivity implements Notifyable {
 			view.setText(text + " (" + bottles + ")");
 		}
 		
-		adapter.notifyDataSetChanged();
+		if (adapter != null) {
+			adapter.notifyDataSetChanged();
+		}
 	}
 	
 	@Override
 	protected void onDestroy() {
-		adapter.destroy();
+		if (adapter != null) {
+			adapter.destroy();
+		}
+		
 		super.onDestroy();
 	}
 	
