@@ -1,16 +1,13 @@
 package ws.wiklund.beerguide.db;
 
 import ws.wiklund.guides.db.DatabaseUpgrader;
+import ws.wiklund.guides.model.BeverageType;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class BeerDatabaseUpgrader extends DatabaseUpgrader {
-	//Available DB versions
-	static final int VERSION_1 = 1;
-	static final int VERSION_2 = 2;
-	static final int VERSION_3 = 3;
-
+	
 	public BeerDatabaseUpgrader(SQLiteDatabase db) {
 		super(db);
 	}
@@ -44,7 +41,24 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 					return VERSION_3;
 				}
 				
-				break;				
+				break;	
+			case VERSION_3:
+				if(newVersion > VERSION_3) {
+					version = moveToVersion4();
+					Log.d(BeerDatabaseUpgrader.class.getName(), "Upgraded DB from version [" + oldVersion + "] to version [" + version + "]");
+					
+					if(version < newVersion) {
+						return upgrade(version, newVersion);
+					}
+					
+					return VERSION_4;
+				}
+				
+				break;	
+			case VERSION_4:
+			case VERSION_5:
+			case VERSION_6:
+				return VERSION_7;
 			default:
 				break;
 		}
@@ -124,6 +138,16 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 		
 		return VERSION_3;
 	}
+	
+	private int moveToVersion4() {
+		db.execSQL("DROP TABLE IF EXISTS " + BeerDatabaseHelper.BEVERAGE_TYPE_TABLE);
+		
+		createAndPopulateBeverageTypeTable(db);
+		
+		addOtherBeverageType();
+
+		return VERSION_4;
+	}
 
 	@Override
 	public void createAndPopulateBeverageTypeTable(SQLiteDatabase db) {
@@ -131,13 +155,15 @@ public class BeerDatabaseUpgrader extends DatabaseUpgrader {
 		db.execSQL(BeerDatabaseHelper.DB_CREATE_BEVERAGE_TYPE);
 		
 		//2. populate beverage type table
-		insertBeverageType(1, "Öl, Ljus lager");
-		insertBeverageType(2, "Öl, Mörk lager");
-		insertBeverageType(3, "Öl, Porter och Stout");
-		insertBeverageType(4, "Öl, Ale");
-		insertBeverageType(5, "Öl, Veteöl");
-		insertBeverageType(6, "Öl, Specialöl");
-		insertBeverageType(7, "Öl, Spontanjäst öl");
+		insertBeverageType(1, "…l, Ljus lager");
+		insertBeverageType(2, "…l, Mšrk lager");
+		insertBeverageType(3, "…l, Porter och Stout");
+		insertBeverageType(4, "…l, Ale");
+		insertBeverageType(5, "…l, Vetešl");
+		insertBeverageType(6, "…l, Specialšl");
+		insertBeverageType(7, "…l, SpontanjŠst šl");
+		insertBeverageType(BeverageType.OTHER.getId(), BeverageType.OTHER.getName());
+		
 	}
 	
 }
